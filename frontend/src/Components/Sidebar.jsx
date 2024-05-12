@@ -5,6 +5,7 @@ import { FaTasks } from "react-icons/fa";
 import {Link} from "react-router-dom";
 import userAtom from '../Atoms/userAtom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
+import {useRecoilValue} from "recoil";
 import { useNavigate } from 'react-router-dom';
 import { IoLogIn } from "react-icons/io5";
 import { BiLogOut } from "react-icons/bi";
@@ -15,7 +16,7 @@ const Sidebar = () => {
     const setUser=useSetRecoilState(userAtom);
     const ShowToast=useShowToast();
     const navigate = useNavigate();
-    const user=useRecoilState(userAtom);
+    const user=useRecoilValue(userAtom);
   const handleAuth=()=>{
     if(user){
         navigate("/Add");
@@ -82,10 +83,12 @@ const Sidebar = () => {
              `}
              
             >
-              <FaTasks className='h-4 w-4'/>
+                <Link to="/" className='flex'>
+              <FaTasks className='h-4 w-4 mr-4'/>
               <span className={`${!open && "hidden"} origin-left duration-200`}>
                 All tasks
               </span>
+                </Link>
               </li>
         <li
               
@@ -108,18 +111,24 @@ const Sidebar = () => {
              
             >
                     {
-                        user?
+                        user ?
+                <Link to="/Auth">
                 <div  className='flex' onClick={handleLogout}>
                 <BiLogOut className='w-4 h-4 mr-4'/>
               <span className={`${!open && "hidden"} origin-left duration-200`}>
                 Logout
               </span>
                 </div>
-                : <Link to={"/Auth"} className='flex'>
+                </Link>
+                :
+                <Link to="/Auth">
+
+                <div  className='flex' onClick={handleLogout}>
                 <IoLogIn className='w-4 h-4 mr-4'/>
               <span className={`${!open && "hidden"} origin-left duration-200`}>
                 Login
               </span>
+                </div>
                 </Link>
             }
               </li>

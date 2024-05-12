@@ -16,7 +16,7 @@ const App = () => {
     <Sidebar/>
     <Routes>
     <Route path="/" element={<Homepage/>}/>
-    <Route path="/Add" element={<AddTask/>}/>
+    <Route path="/Auth" element={!user? <AuthPage/>: <Navigate to ="/Add"/>}/>
     <Route path="/Auth" element={<AuthPage/>}/>
     
     </Routes>
