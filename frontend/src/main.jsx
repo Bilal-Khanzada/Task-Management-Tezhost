@@ -5,6 +5,7 @@ import './index.css';
 import { RecoilRoot } from 'recoil';
 // 1. import `ChakraProvider` component
 import { ChakraProvider } from '@chakra-ui/react'
+import { BrowserRouter } from 'react-router-dom';
 
 // 1. import `ChakraProvider` component
 import {
@@ -16,19 +17,22 @@ import {
 const { Button } = chakraTheme.components
 
 const theme = extendBaseTheme({
-  components: {
-    Button,
-  },
+  extend:{
+    colors: {
+      'custom-blue': 'rgb(30, 69, 114)',
+    },
+
+  }
 })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
- <RecoilRoot>
 
+ <RecoilRoot>
+<BrowserRouter>
 <ChakraProvider theme={theme}>
-  <React.StrictMode>
     <App />
-  </React.StrictMode>,
 </ChakraProvider>
+</BrowserRouter>
  </RecoilRoot>
   
 )

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div  className="h-screen flex-1 p-7">
+    <div >
         <table id="todo_table" class="table w-20">
                     <thead>
                         <tr>

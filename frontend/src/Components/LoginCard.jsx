@@ -17,8 +17,8 @@ import {
     useToast,
     Show,
   } from '@chakra-ui/react'
-  import { useState } from 'react'
-  import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { useState } from 'react'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useSetRecoilState } from 'recoil';
 import authScreenAtom from '../Atoms/authAtom';
 import { CgPassword } from 'react-icons/cg';
@@ -47,6 +47,7 @@ const LoginCard = () => {
                 body:JSON.stringify(inputs)
             });
             const data=await res.json();
+            console.log(data);
             if(data.error){
                 Toast({
                     title:"error",
@@ -66,6 +67,10 @@ const LoginCard = () => {
     }
    
   return (
+    <div className='h-screen flex-1 p-7 mt-[70px] w-full'>
+    <div className="max-w-[500px] bg-white mx-auto">
+
+    
     <Flex 
     align={'center'}
     justify={'center'}>
@@ -127,6 +132,8 @@ const LoginCard = () => {
       </Box>
     </Stack>
   </Flex>
+  </div>
+  </div>
   )
 }
 
