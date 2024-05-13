@@ -17,16 +17,9 @@ const Sidebar = () => {
     const ShowToast=useShowToast();
     const navigate = useNavigate();
     const user=useRecoilValue(userAtom);
-  const handleAuth=()=>{
-    if(user){
-        navigate("/Add");
-    }
-    else{
-        navigate("/Auth");
-    }
-  }
   const [open, setOpen] = useState(true);
   const handleLogout=async()=>{
+
     try{
         localStorage.removeItem("user-threads");
         const res= await fetch("/api/users/logout",{
@@ -41,6 +34,7 @@ const Sidebar = () => {
             ShowToast("Error",data.error,"error")
         }
         setUser(null);
+        navigate("/")
 
     }
     catch(error){
