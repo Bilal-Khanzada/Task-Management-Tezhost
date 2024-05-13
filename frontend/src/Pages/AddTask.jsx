@@ -1,66 +1,102 @@
 import React, { useState } from 'react';
 
-const TaskForm = () => {
-    // State for managing tasks
+function TaskForm() {
+    const [name, setName] = useState('');
+    const [taskTitle, setTaskTitle] = useState('');
+    const [taskDescription, setTaskDescription] = useState('');
     const [tasks, setTasks] = useState([]);
-    const [title, setTitle] = useState('');
-    const [userName, setUserName] = useState('');
 
-    // Function to handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Creating a new task object
+    const handleSubmit = async(event) => {
+        event.preventDefault();
+
+        if (name.trim() === '' || taskTitle.trim() === '' || taskDescription.trim() === '') {
+            alert('Please fill out all fields');
+            return;
+        }
+
         const newTask = {
-            title: title,
-            userName: userName,
+            username: name,
+            tasktitle: taskTitle,
+            description: taskDescription
         };
-        // Adding the new task to the tasks array
-        setTasks([...tasks, newTask]);
-        // Clearing the input fields after submission
-        setTitle('');
-        setUserName('');
-    };
+        try {
+            const response = await fetch('/api/addtask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newTask)
+            });
 
-    // Function to handle task deletion
-    const handleDelete = (index) => {
+            if (!response.ok) {
+                throw new Error('Failed to add task');
+            }
+
+
+        setTasks([...tasks, newTask]);
+
+        // Reset form fields
+        setName('');
+        setTaskTitle('');
+        setTaskDescription('');
+    }      catch (error) {
+        console.error('Error:', error.message);
+        alert('Failed to add task');
+    }
+}
+
+    const removeTask = (index) => {
         const updatedTasks = [...tasks];
         updatedTasks.splice(index, 1);
         setTasks(updatedTasks);
     };
 
     return (
-        <div>
-            {/* Form for adding new tasks */}
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Task Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="User Name"
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
-                    required
-                />
-                <button type="submit">Add Task</button>
-            </form>
-
-            {/* Displaying the list of tasks */}
-            <div>
-                {tasks.map((task, index) => (
-                    <div key={index} className="bg-black shadow-md rounded-lg p-4 mt-4">
-                        <h2 className="text-lg font-semibold">{task.title}</h2>
-                        <p className="text-white-600">{task.userName}</p>
-                        <button onClick={() => handleDelete(index)}>Delete</button>
-                    </div>
-                ))}
+        <div className="max-w-full mx-auto my-auto h-[600px] flex-1 p-7 bg-white rounded-xl shadow-md overflow-hidden md:max-w-6xl">
+            <div className="md:flex">
+                <div className="w-full">
+                    <form className="space-y-4 p-6" onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                        </div>
+                        <div>
+                            <label htmlFor="taskTitle" className="block text-sm font-medium text-gray-700">Task Title</label>
+                            <input type="text" id="taskTitle" value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                        </div>
+                        <div>
+                            <label htmlFor="taskDescription" className="block text-sm font-medium text-gray-700">Task Description</label>
+                            <textarea id="taskDescription" value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} rows="3" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+                        </div>
+                        <div className="flex justify-end">
+                            <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Add Task
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div className="bg-gray-200 p-4">
+                <h2 className="text-lg font-semibold mb-2">Task List</h2>
+                <ul className="divide-y divide-gray-300">
+                    {tasks.map((task, index) => (
+                        <li key={index} className="py-2">
+                            <div className="flex justify-between">
+                                <div>
+                                    <h3 className="text-lg font-medium">{task.title}</h3>
+                                    <p className="text-gray-500">{task.description}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium">Completed by: {task.username}</p>
+                                    <button onClick={() => removeTask(index)} className="ml-2 text-sm font-medium text-red-500 focus:outline-none">Remove</button>
+                                </div>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     );
-};
-
+    
+}
 export default TaskForm;

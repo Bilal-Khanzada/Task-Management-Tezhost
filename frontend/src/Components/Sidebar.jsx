@@ -112,18 +112,17 @@ const Sidebar = () => {
             >
                     {
                         user ?
-                <Link to="/Auth">
+             
                 <div  className='flex' onClick={handleLogout}>
                 <BiLogOut className='w-4 h-4 mr-4'/>
               <span className={`${!open && "hidden"} origin-left duration-200`}>
                 Logout
               </span>
                 </div>
-                </Link>
                 :
                 <Link to="/Auth">
 
-                <div  className='flex' onClick={handleLogout}>
+                <div  className='flex'>
                 <IoLogIn className='w-4 h-4 mr-4'/>
               <span className={`${!open && "hidden"} origin-left duration-200`}>
                 Login

@@ -16,9 +16,11 @@ const App = () => {
     <Sidebar/>
     <Routes>
     <Route path="/" element={<Homepage/>}/>
+    <Route path='/Add'element={<AddTask/>}/>
+    <Route path="/Add" element={!user ? <Navigate to="/Auth" /> : <Navigate to="/Add"/>} />
     <Route path="/Auth" element={!user? <AuthPage/>: <Navigate to ="/Add"/>}/>
-    <Route path="/Auth" element={<AuthPage/>}/>
-    
+    {/* <Route path="/Auth" element={!user? <AuthPage/>: <Navigate to ="/Add"/>}/>
+     */}
     </Routes>
     </div>
    
