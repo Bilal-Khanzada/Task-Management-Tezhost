@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-
-function TaskForm() {
+import useShowToast from '../Hooks/useShowToast';
+function AddTask() {
     const [name, setName] = useState('');
     const [taskTitle, setTaskTitle] = useState('');
     const [taskDescription, setTaskDescription] = useState('');
     const [tasks, setTasks] = useState([]);
+    const showToast=useShowToast();
 
     const handleSubmit = async(event) => {
         event.preventDefault();
@@ -52,6 +53,7 @@ function TaskForm() {
     };
 
     return (
+        <>
         <div className="max-w-full mx-auto my-auto h-[600px] flex-1 p-7 bg-white rounded-xl shadow-md overflow-hidden md:max-w-6xl">
             <div className="md:flex">
                 <div className="w-full">
@@ -96,7 +98,8 @@ function TaskForm() {
                 </ul>
             </div>
         </div>
+                            </>
     );
     
 }
-export default TaskForm;
+export default AddTask;

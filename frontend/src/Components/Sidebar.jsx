@@ -17,7 +17,13 @@ const Sidebar = () => {
     const ShowToast=useShowToast();
     const navigate = useNavigate();
     const user=useRecoilValue(userAtom);
+    const [activeItem, setActiveItem] = useState(null);
+
   const [open, setOpen] = useState(true);
+  const handleItemClick = (index) => {
+    setActiveItem(index);
+}
+
   const handleLogout=async()=>{
 
     try{
@@ -47,7 +53,7 @@ const Sidebar = () => {
       <div
         className={` ${
           open ? "w-72" : "w-20 "
-        } bg-black h-screen p-5  pt-8 relative duration-300`}
+        } bg-black h-100vh p-5  pt-8 relative duration-300`}
       >
         <img
           src="./src/assets/control.png"
@@ -57,26 +63,18 @@ const Sidebar = () => {
         />
         <div className="flex gap-x-4 ">
           <img
-            src="./src/assets/logo.png"
+            src="./src/assets/tezhost_logo.png"
             className={`cursor-pointer duration-500 ${
               open && "rotate-[360deg]"
             }`}
           />
-          <h1
-            className={`text-white origin-left font-medium text-xl duration-200 ${
-              !open && "scale-0"
-            }`}
-          >
-            Tezhost
-          </h1>
         </div>
         <ul className="pt-6">
         <li
-              
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
-             `}
-             
-            >
+                        className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
+             ${activeItem === 0 ? "bg-light-white" : ""}`}
+                        onClick={() => handleItemClick(0)}
+                    >
                 <Link to="/" className='flex'>
               <FaTasks className='h-4 w-4 mr-4'/>
               <span className={`${!open && "hidden"} origin-left duration-200`}>
@@ -84,12 +82,12 @@ const Sidebar = () => {
               </span>
                 </Link>
               </li>
-        <li
-              
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
-                `}
-             
-            >
+              <li
+                        className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
+                ${activeItem === 1 ? "bg-light-white" : ""}`}
+                        onClick={() => handleItemClick(1)}
+                    >
+
                 <Link to={`${user? "/Add": "/Auth"}`} className='flex'>
               <MdOutlineAddCircle className='h-4 w-4 mr-4'/>
               <span className={`${!open && "hidden"} origin-left duration-200`}>
@@ -98,12 +96,11 @@ const Sidebar = () => {
                 </Link>
                    
               </li>
-        <li
-              
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
-             `} 
-             
-            >
+              <li
+                        className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
+             ${activeItem === 2 ? "bg-light-white" : ""}`}
+                        onClick={() => handleItemClick(2)}
+                    >
                     {
                         user ?
              
